@@ -171,6 +171,7 @@ after_success:
       then
         echo "creating site for ${PR_BRANCH}"
         $TERMINUS multidev:create $PANTHEON_SITE.live $PR_BRANCH
+      fi
     fi
   - echo "done"
 
