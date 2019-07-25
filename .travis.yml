@@ -52,7 +52,8 @@ before_install:
     pushd ~/terminus && \
     curl -O https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar && \
     php installer.phar install && \
-    popd
+    popd && \
+    echo "alias terminus=/home/travis/terminus/vendor/bin/terminus" >> ~/.bashrc
   - |
     if [[ "$WP_VERSION" == "latest" ]]; then
       curl -s http://api.wordpress.org/core/version-check/1.7/ > /tmp/wp-latest.json
@@ -137,11 +138,12 @@ jobs:
     #   env: E2E=1 WP_VERSION=4.9.10 GUTENBERG_VERSION=4.9.0
 
 after_success:
-  - mkdir ~/.ssh && chmod 700 ~.ssh && echo $PRIVATE_KEY > ~/.ssh/id_rsa && chmod 600 ~.ssh/id_rsa
+  - mkdir -p ~/.ssh && chmod 700 ~.ssh && echo $PRIVATE_KEY > ~/.ssh/id_rsa && chmod 600 ~.ssh/id_rsa
   - terminus auth:login --machine-token=$TERMINUS_TOKEN
   # clone repo to temp directory
-  - mkdir ~/tmp/repo && pushd ~/tmp/repo || exit 1
+  - mkdir /tmp/repo && pushd /tmp/repo || exit 1
   - git clone $PANTHEON_REPO $PANTHEON_SITE
+  - terminus multidev:list $PANTHEON_SITE
 
 services:
   - docker
