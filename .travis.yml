@@ -144,13 +144,33 @@ after_success:
   - $TERMINUS auth:login --machine-token=$TERMINUS_TOKEN
   - echo -e "Host *\n\tStrictHostKeyChecking no" >> ~/.ssh/config && chmod 700 ~/.ssh/config
   # clone repo to temp directory
+  - export REPO_DIR=$(pwd)
   - mkdir /tmp/repo && pushd /tmp/repo || exit 1
   - git clone $PANTHEON_REPO .
+  ## set up multidev site for this PR
   - |
-    if [ "$TRAVIS_PULL_REQUEST" == "false" ]
+    if [ "$TRAVIS_PULL_REQUEST" != "false" ]
     then
-      export PR_BRANCH="pr-${TRAVIS_PULL_REQUEST"
-      $TERMINUS multidev:list $PANTHEON_SITE --format=list
+      export PR_BRANCH="pr-${TRAVIS_PULL_REQUEST}"
+      ## check if a git branch already exists for this PR on pantheon & check it out, if not create one
+      if ! git rev-parse --verify --quiet $PR_BRANCH
+      then
+        git checkout -b $PR_BRANCH
+      else
+        git checkout $PR_BRANCH
+      fi
+      ## copy files from $REPO_DIR to pantheon repo
+      mkdir -p wp-content/plugins/google-site-kit   ## ensure plugin dir exists
+      rsync -vrxc --delete $REPO_DIR /tmp/repo/wp-content/plugins/google-site-kit/ --exclude-from=$TRAVIS_BUILD_DIR/.ci/rsync-excludes.txt
+      git status
+      git add .
+      git commit -m "${TRAVIS_COMMIT_MESSAGE}"
+      git push origin $PR_BRANCH
+      ## if multidev site does not already exist
+      if ! $TERMINUS multidev:list $PANTHEON_SITE --format=list | grep $PR_BRANCH ]
+      then
+        echo "creating site for ${PR_BRANCH}"
+        $TERMINUS multidev:create $PANTHEON_SITE.live $PR_BRANCH
     fi
 
 
