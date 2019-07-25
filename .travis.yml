@@ -38,6 +38,7 @@ branches:
 =======
 env:
   - PANTHEON_SITE="jasondewitt"
+  - TERMINUS="/home/travis/terminus/vendor/bin/terminus"
 
 # branches:
 #   only:
@@ -52,8 +53,7 @@ before_install:
     pushd ~/terminus && \
     curl -O https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar && \
     php installer.phar install && \
-    popd && \
-    echo "alias terminus=/home/travis/terminus/vendor/bin/terminus" >> ~/.bashrc
+    popd
   - |
     if [[ "$WP_VERSION" == "latest" ]]; then
       curl -s http://api.wordpress.org/core/version-check/1.7/ > /tmp/wp-latest.json
@@ -144,12 +144,12 @@ after_success:
   - chmod 600 /tmp/sitekit_rsa
   - ssh-add /tmp/sitekit_rsa
   - echo -e "Host *\n\tStrictHostKeyChecking no" >> ~/.ssh/config && chmod 700 ~/.ssh/config
-  - terminus auth:login --machine-token=$TERMINUS_TOKEN
+  - $TERMINUS auth:login --machine-token=$TERMINUS_TOKEN
   # clone repo to temp directory
   - mkdir /tmp/repo && pushd /tmp/repo || exit 1
   - git clone $PANTHEON_REPO .
   - echo "test terminus connection"
-  - terminus multidev:list $PANTHEON_SITE
+  - $TERMINUS multidev:list $PANTHEON_SITE
 
 services:
   - docker
