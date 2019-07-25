@@ -30,10 +30,17 @@ cache:
     - $HOME/.phpbrew
     - $HOME/.npm
 
+
 branches:
   only:
     - master
     - develop
+
+env:
+  global:
+    - PANTHEON_SITE="jasondewitt"
+    - TERMINUS="/home/travis/terminus/vendor/bin/terminus"
+
 
 # Before install, failures in this section will result in build status 'errored'
 before_install:
@@ -69,6 +76,7 @@ before_script:
     fi
 
 script:
+  - echo "this is a test"
   - |
     if [[ "$SNIFF" == "1" ]]; then
       gulp phpcs || exit 1
@@ -125,6 +133,10 @@ jobs:
     - stage: test
       name: E2E Tests (WordPress 4.9, Gutenberg 4.9)
       env: E2E=1 WP_VERSION=4.9.10 GUTENBERG_VERSION=4.9.0
+
+deploy:
+  provider: script
+  script: bash .ci/multidev.sh
 
 services:
   - docker
