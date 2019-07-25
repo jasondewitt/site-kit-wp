@@ -135,18 +135,24 @@ jobs:
     #   env: E2E=1 WP_VERSION=4.9.10 GUTENBERG_VERSION=4.9.0
 
 after_success:
+  ## decrypt ssh key in.ssh/sitekit_rsa.enc
   - openssl aes-256-cbc -K $encrypted_2a8fab67e230_key -iv $encrypted_2a8fab67e230_iv -in .ssh/sitekit_rsa.enc -out /tmp/sitekit_rsa -d
   - eval "$(ssh-agent -s)"
   - chmod 600 /tmp/sitekit_rsa
   - ssh-add /tmp/sitekit_rsa
-  - echo -e "Host *\n\tStrictHostKeyChecking no" >> ~/.ssh/config && chmod 700 ~/.ssh/config
+  ## log in on terminus
   - $TERMINUS auth:login --machine-token=$TERMINUS_TOKEN
+  - echo -e "Host *\n\tStrictHostKeyChecking no" >> ~/.ssh/config && chmod 700 ~/.ssh/config
   # clone repo to temp directory
   - mkdir /tmp/repo && pushd /tmp/repo || exit 1
   - git clone $PANTHEON_REPO .
-  - echo "test terminus connection"
-  - echo "site name is $PANTHEON_SITE"
-  - $TERMINUS multidev:list $PANTHEON_SITE
+  - |
+    if [ "$TRAVIS_PULL_REQUEST" == "false" ]
+    then
+      export PR_BRANCH="pr-${TRAVIS_PULL_REQUEST"
+      $TERMINUS multidev:list $PANTHEON_SITE --format=list
+    fi
+
 
 services:
   - docker
