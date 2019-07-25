@@ -113,28 +113,28 @@ jobs:
       name: Lint
       php: 7.3
       env: WP_VERSION=4.7 PHPCS_PHP_VERSION='5.4' SNIFF=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-    - name: PHP Tests (PHP 5.6, WordPress latest)
-      php: 5.6
-      env: WP_VERSION=latest PHP=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-    - name: PHP Tests (PHP 7.3, WordPress latest)
-      php: 7.3
-      env: WP_VERSION=latest PHP=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-    - name: JS Tests
-      php: 7.3
-      env: WP_VERSION=latest JS=1
-    - name: PHP Tests (PHP 7.4, WordPress trunk)
-      stage: test
-      php: 7.4snapshot
-      env: WP_VERSION=master PHP=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-    - stage: test
-      name: E2E Tests (WordPress latest)
-      env: E2E=1
-    - stage: test
-      name: E2E Tests (WordPress 4.7)
-      env: E2E=1 WP_VERSION=4.7.13
-    - stage: test
-      name: E2E Tests (WordPress 4.9, Gutenberg 4.9)
-      env: E2E=1 WP_VERSION=4.9.10 GUTENBERG_VERSION=4.9.0
+    # - name: PHP Tests (PHP 5.6, WordPress latest)
+    #   php: 5.6
+    #   env: WP_VERSION=latest PHP=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    # - name: PHP Tests (PHP 7.3, WordPress latest)
+    #   php: 7.3
+    #   env: WP_VERSION=latest PHP=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    # - name: JS Tests
+    #   php: 7.3
+    #   env: WP_VERSION=latest JS=1
+    # - name: PHP Tests (PHP 7.4, WordPress trunk)
+    #   stage: test
+    #   php: 7.4snapshot
+    #   env: WP_VERSION=master PHP=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    # - stage: test
+    #   name: E2E Tests (WordPress latest)
+    #   env: E2E=1
+    # - stage: test
+    #   name: E2E Tests (WordPress 4.7)
+    #   env: E2E=1 WP_VERSION=4.7.13
+    # - stage: test
+    #   name: E2E Tests (WordPress 4.9, Gutenberg 4.9)
+    #   env: E2E=1 WP_VERSION=4.9.10 GUTENBERG_VERSION=4.9.0
 
 after_success:
   - mkdir ~/.ssh && chmod 700 ~.ssh && echo $PRIVATE_KEY > ~/.ssh/id_rsa && chmod 600 ~.ssh/id_rsa
