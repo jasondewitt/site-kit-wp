@@ -149,6 +149,7 @@ after_success:
   - git clone $PANTHEON_REPO .
   ## set up multidev site for this PR
   - |
+    set -ex
     if [ "$TRAVIS_PULL_REQUEST" != "false" ]
     then
       export PR_BRANCH="pr-${TRAVIS_PULL_REQUEST}"
