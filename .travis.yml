@@ -162,7 +162,7 @@ after_success:
       fi
       ## copy files from $REPO_DIR to pantheon repo
       mkdir -p wp-content/plugins/google-site-kit   ## ensure plugin dir exists
-      rsync -vrxc --delete $REPO_DIR /tmp/repo/wp-content/plugins/google-site-kit/ --exclude-from=$TRAVIS_BUILD_DIR/.ci/rsync-excludes.txt
+      rsync -rxc --delete $REPO_DIR /tmp/repo/wp-content/plugins/google-site-kit/ --exclude-from=$TRAVIS_BUILD_DIR/.ci/rsync-excludes.txt
       git status
       git add .
       git commit --quiet -m "${TRAVIS_COMMIT_MESSAGE}"
