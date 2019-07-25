@@ -30,10 +30,10 @@ cache:
     - $HOME/.phpbrew
     - $HOME/.npm
 
-# branches:
-#   only:
-#     - master
-#     - develop
+branches:
+  only:
+    - master
+    - develop
 
 # Before install, failures in this section will result in build status 'errored'
 before_install:
