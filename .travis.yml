@@ -167,7 +167,7 @@ after_success:
       git commit -m "${TRAVIS_COMMIT_MESSAGE}"
       git push origin $PR_BRANCH
       ## if multidev site does not already exist
-      if ! $TERMINUS multidev:list $PANTHEON_SITE --format=list | grep $PR_BRANCH ]
+      if ! $TERMINUS multidev:list $PANTHEON_SITE --format=list | grep $PR_BRANCH
       then
         echo "creating site for ${PR_BRANCH}"
         $TERMINUS multidev:create $PANTHEON_SITE.live $PR_BRANCH
