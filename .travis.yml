@@ -149,6 +149,7 @@ after_success:
   - mkdir /tmp/repo && pushd /tmp/repo || exit 1
   - git clone $PANTHEON_REPO .
   - echo "test terminus connection"
+  - echo "site name is $PANTHEON_SITE"
   - $TERMINUS multidev:list $PANTHEON_SITE
 
 services:
