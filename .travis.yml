@@ -80,31 +80,32 @@ before_script:
     fi
 
 script:
-  - |
-    if [[ "$SNIFF" == "1" ]]; then
-      gulp phpcs || exit 1
-      npm run lint:js || exit 1
-      npm run lint:css || exit 1
-    fi
-  - |
-    if [[ "$JS" == "1" ]]; then
-      npm run build || exit 1 # Build for tests.
-      npx gulp qunit || exit 1 # QUnit tests
-      npm run test || exit 1 # Bundle size test
-      travis_retry npm run travis:visualtest || exit 1 # Visual regression tests
-    fi
-  - |
-    if [[ "$PHP" == "1" ]]; then
-      gulp phpunit || exit 1
-    fi
-  - |
-    if [[ "$E2E" == "1" ]]; then
-      npm run build || exit 1 # Build for tests.
-      npm run env:start
-      npm run env:reset-site
-      npm run test:e2e
-      npm run env:stop
-    fi
+  - echo "this is a test"
+  # - |
+  #   if [[ "$SNIFF" == "1" ]]; then
+  #     gulp phpcs || exit 1
+  #     npm run lint:js || exit 1
+  #     npm run lint:css || exit 1
+  #   fi
+  # - |
+  #   if [[ "$JS" == "1" ]]; then
+  #     npm run build || exit 1 # Build for tests.
+  #     npx gulp qunit || exit 1 # QUnit tests
+  #     npm run test || exit 1 # Bundle size test
+  #     travis_retry npm run travis:visualtest || exit 1 # Visual regression tests
+  #   fi
+  # - |
+  #   if [[ "$PHP" == "1" ]]; then
+  #     gulp phpunit || exit 1
+  #   fi
+  # - |
+  #   if [[ "$E2E" == "1" ]]; then
+  #     npm run build || exit 1 # Build for tests.
+  #     npm run env:start
+  #     npm run env:reset-site
+  #     npm run test:e2e
+  #     npm run env:stop
+  #   fi
 
 jobs:
   allow_failures:
