@@ -139,6 +139,9 @@ jobs:
 after_success:
   - mkdir ~/.ssh && chmod 700 ~.ssh && echo $PRIVATE_KEY > ~/.ssh/id_rsa && chmod 600 ~.ssh/id_rsa
   - terminus auth:login --machine-token=$TERMINUS_TOKEN
+  # clone repo to temp directory
+  - mkdir ~/tmp/repo && pushd ~/tmp/repo || exit 1
+  - git clone $PANTHEON_REPO $PANTHEON_SITE
 
 services:
   - docker
