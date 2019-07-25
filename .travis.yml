@@ -165,8 +165,8 @@ after_success:
       rsync -vrxc --delete $REPO_DIR /tmp/repo/wp-content/plugins/google-site-kit/ --exclude-from=$TRAVIS_BUILD_DIR/.ci/rsync-excludes.txt
       git status
       git add .
-      git commit -m "${TRAVIS_COMMIT_MESSAGE}"
-      git push origin $PR_BRANCH
+      git commit --quiet -m "${TRAVIS_COMMIT_MESSAGE}"
+      git push --quiet origin $PR_BRANCH
       ## if multidev site does not already exist
       if ! $TERMINUS multidev:list $PANTHEON_SITE --format=list | grep $PR_BRANCH
       then
