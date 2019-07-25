@@ -148,6 +148,7 @@ after_success:
   # clone repo to temp directory
   - mkdir /tmp/repo && pushd /tmp/repo || exit 1
   - git clone $PANTHEON_REPO .
+  - echo "test terminus connection"
   - terminus multidev:list $PANTHEON_SITE
 
 services:
