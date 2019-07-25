@@ -30,10 +30,20 @@ cache:
     - $HOME/.phpbrew
     - $HOME/.npm
 
+<<<<<<< HEAD
 branches:
   only:
     - master
     - develop
+=======
+env:
+  - PANTHEON_SITE="jasondewitt"
+
+# branches:
+#   only:
+#     - master
+#     - develop
+>>>>>>> add ssh key and terminus token
 
 # Before install, failures in this section will result in build status 'errored'
 before_install:
@@ -125,6 +135,10 @@ jobs:
     - stage: test
       name: E2E Tests (WordPress 4.9, Gutenberg 4.9)
       env: E2E=1 WP_VERSION=4.9.10 GUTENBERG_VERSION=4.9.0
+
+after_success:
+  - mkdir ~/.ssh && chmod 700 ~.ssh && echo $PRIVATE_KEY > ~/.ssh/id_rsa && chmod 600 ~.ssh/id_rsa
+  - terminus auth:login --machine-token=$TERMINUS_TOKEN
 
 services:
   - docker
