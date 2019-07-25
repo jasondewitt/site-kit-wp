@@ -37,8 +37,9 @@ branches:
     - develop
 =======
 env:
-  - PANTHEON_SITE="jasondewitt"
-  - TERMINUS="/home/travis/terminus/vendor/bin/terminus"
+  global:
+    - PANTHEON_SITE="jasondewitt"
+    - TERMINUS="/home/travis/terminus/vendor/bin/terminus"
 
 # branches:
 #   only:
