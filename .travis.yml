@@ -142,7 +142,7 @@ after_success:
   - terminus auth:login --machine-token=$TERMINUS_TOKEN
   # clone repo to temp directory
   - mkdir /tmp/repo && pushd /tmp/repo || exit 1
-  - git clone $PANTHEON_REPO $PANTHEON_SITE
+  - git clone $PANTHEON_REPO .
   - terminus multidev:list $PANTHEON_SITE
 
 services:
