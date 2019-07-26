@@ -77,31 +77,31 @@ before_script:
 
 script:
   - echo "this is a test"
-  # - |
-  #   if [[ "$SNIFF" == "1" ]]; then
-  #     gulp phpcs || exit 1
-  #     npm run lint:js || exit 1
-  #     npm run lint:css || exit 1
-  #   fi
-  # - |
-  #   if [[ "$JS" == "1" ]]; then
-  #     npm run build || exit 1 # Build for tests.
-  #     npx gulp qunit || exit 1 # QUnit tests
-  #     npm run test || exit 1 # Bundle size test
-  #     travis_retry npm run travis:visualtest || exit 1 # Visual regression tests
-  #   fi
-  # - |
-  #   if [[ "$PHP" == "1" ]]; then
-  #     gulp phpunit || exit 1
-  #   fi
-  # - |
-  #   if [[ "$E2E" == "1" ]]; then
-  #     npm run build || exit 1 # Build for tests.
-  #     npm run env:start
-  #     npm run env:reset-site
-  #     npm run test:e2e
-  #     npm run env:stop
-  #   fi
+  - |
+    if [[ "$SNIFF" == "1" ]]; then
+      gulp phpcs || exit 1
+      npm run lint:js || exit 1
+      npm run lint:css || exit 1
+    fi
+  - |
+    if [[ "$JS" == "1" ]]; then
+      npm run build || exit 1 # Build for tests.
+      npx gulp qunit || exit 1 # QUnit tests
+      npm run test || exit 1 # Bundle size test
+      travis_retry npm run travis:visualtest || exit 1 # Visual regression tests
+    fi
+  - |
+    if [[ "$PHP" == "1" ]]; then
+      gulp phpunit || exit 1
+    fi
+  - |
+    if [[ "$E2E" == "1" ]]; then
+      npm run build || exit 1 # Build for tests.
+      npm run env:start
+      npm run env:reset-site
+      npm run test:e2e
+      npm run env:stop
+    fi
 
 jobs:
   allow_failures:
@@ -111,28 +111,28 @@ jobs:
       name: Lint
       php: 7.3
       env: WP_VERSION=4.7 PHPCS_PHP_VERSION='5.4' SNIFF=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-    # - name: PHP Tests (PHP 5.6, WordPress latest)
-    #   php: 5.6
-    #   env: WP_VERSION=latest PHP=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-    # - name: PHP Tests (PHP 7.3, WordPress latest)
-    #   php: 7.3
-    #   env: WP_VERSION=latest PHP=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-    # - name: JS Tests
-    #   php: 7.3
-    #   env: WP_VERSION=latest JS=1
-    # - name: PHP Tests (PHP 7.4, WordPress trunk)
-    #   stage: test
-    #   php: 7.4snapshot
-    #   env: WP_VERSION=master PHP=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-    # - stage: test
-    #   name: E2E Tests (WordPress latest)
-    #   env: E2E=1
-    # - stage: test
-    #   name: E2E Tests (WordPress 4.7)
-    #   env: E2E=1 WP_VERSION=4.7.13
-    # - stage: test
-    #   name: E2E Tests (WordPress 4.9, Gutenberg 4.9)
-    #   env: E2E=1 WP_VERSION=4.9.10 GUTENBERG_VERSION=4.9.0
+    - name: PHP Tests (PHP 5.6, WordPress latest)
+      php: 5.6
+      env: WP_VERSION=latest PHP=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    - name: PHP Tests (PHP 7.3, WordPress latest)
+      php: 7.3
+      env: WP_VERSION=latest PHP=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    - name: JS Tests
+      php: 7.3
+      env: WP_VERSION=latest JS=1
+    - name: PHP Tests (PHP 7.4, WordPress trunk)
+      stage: test
+      php: 7.4snapshot
+      env: WP_VERSION=master PHP=1 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+    - stage: test
+      name: E2E Tests (WordPress latest)
+      env: E2E=1
+    - stage: test
+      name: E2E Tests (WordPress 4.7)
+      env: E2E=1 WP_VERSION=4.7.13
+    - stage: test
+      name: E2E Tests (WordPress 4.9, Gutenberg 4.9)
+      env: E2E=1 WP_VERSION=4.9.10 GUTENBERG_VERSION=4.9.0
 
 after_success:
   ## decrypt ssh key and set up ssh connection to pantheon
