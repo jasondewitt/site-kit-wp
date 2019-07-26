@@ -1,2 +1,11 @@
 .ci
-.ssh
+*node_modules*
+*.md
+*.yml
+composer.json
+composer.lock
+package.json
+package-lock.json
+.editorconfig
+phpcs.xml
+readme.txt
